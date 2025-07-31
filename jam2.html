@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Jam Analog & Digital</title>
+  <style>
+    body {
+      background-color: #121212;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      flex-direction: column;
+      color: white;
+    }
+
+    .clock-container {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      border: 8px solid #03dac5;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(3, 218, 197, 0.5);
+    }
+
+    .hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform-origin: bottom center;
+      background: white;
+      transform: rotate(90deg);
+    }
+
+    .hour {
+      width: 6px;
+      height: 60px;
+      background: #ff0266;
+    }
+
+    .minute {
+      width: 4px;
+      height: 80px;
+      background: #03dac5;
+    }
+
+    .second {
+      width: 2px;
+      height: 90px;
+      background: #bb86fc;
+    }
+
+    .center-dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .digital-clock {
+      margin-top: 25px;
+      font-size: 28px;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock-container">
+    <div class="hand hour" id="hourHand"></div>
+    <div class="hand minute" id="minuteHand"></div>
+    <div class="hand second" id="secondHand"></div>
+    <div class="center-dot"></div>
+  </div>
+  <div class="digital-clock" id="digitalClock">00:00:00</div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const sec = now.getSeconds();
+      const min = now.getMinutes();
+      const hr  = now.getHours();
+
+      const secDeg = sec * 6;
+      const minDeg = min * 6 + sec * 0.1;
+      const hrDeg  = (hr % 12) * 30 + min * 0.5;
+
+      document.getElementById("secondHand").style.transform = `rotate(${secDeg}deg)`;
+      document.getElementById("minuteHand").style.transform = `rotate(${minDeg}deg)`;
+      document.getElementById("hourHand").style.transform   = `rotate(${hrDeg}deg)`;
+
+      const h = String(hr).padStart(2, '0');
+      const m = String(min).padStart(2, '0');
+      const s = String(sec).padStart(2, '0');
+      document.getElementById("digitalClock").textContent = `${h}:${m}:${s}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // Inisialisasi saat halaman dibuka
+  </script>
+</body>
+</html>
